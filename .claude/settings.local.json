@@ -23,7 +23,12 @@
       "Bash(del nul)",
       "Bash(powershell -Command \"& .\\gradlew.bat assembleDebug\")",
       "Bash(git config:*)",
-      "Bash(powershell -Command \"$env:JAVA_HOME=''C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot''; & .\\gradlew.bat assembleDebug\")"
+      "Bash(powershell -Command \"$env:JAVA_HOME=''C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot''; & .\\gradlew.bat assembleDebug\")",
+      "Bash(powershell -Command:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(npm run android:*)"
     ],
     "deny": [],
     "ask": []

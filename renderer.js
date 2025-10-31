@@ -1,11 +1,10 @@
-const { createClient } = require('@supabase/supabase-js');
-
 const GROUP_ID = 12513;
 const API_BASE = 'https://api.wiseoldman.net/v2';
 
 // Initialize Supabase client
 const SUPABASE_URL = 'https://erhjgzqmhwetbxyrxsro.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaGpnenFtaHdldGJ4eXJ4c3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2ODA2NjcsImV4cCI6MjA3NzI1NjY2N30.2GXUD7l5zSAbO_mhkvSUaQUbDfWYdy_R1RYPvisB_zI';
+const { createClient } = window.supabase;
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let clanData = null;

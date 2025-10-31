@@ -1,11 +1,10 @@
 {
   "name": "gnomercyz-tracker",
   "version": "1.0.0",
-  "description": "Desktop app to track Gnomercyz clan stats from Wise Old Man API",
-  "main": "main.js",
+  "description": "Web app to track Gnomercyz clan stats from Wise Old Man API",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --no-sandbox"
+    "dev": "npx serve .",
+    "start": "npx serve ."
   },
   "keywords": [
     "osrs",
@@ -14,9 +13,6 @@
   ],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "^28.3.3"
-  },
   "dependencies": {
     "@supabase/supabase-js": "^2.78.0"
   }
