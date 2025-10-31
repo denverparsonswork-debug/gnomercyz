@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Start-BitsTransfer -Source ''https://aka.ms/download-jdk/microsoft-jdk-17.0.13-windows-x64.msi'' -Destination ''C:\\Users\\denve\\Downloads\\jdk-17.msi''\")",
+      "Bash(dir:*)",
+      "Bash(java:*)",
+      "Bash(where:*)",
+      "Bash(nul)",
+      "Bash(findstr:*)",
+      "Bash(npm install:*)",
+      "Bash(set JAVA_HOME=C:Program FilesMicrosoftjdk-17.0.13.11-hotspot:*)",
+      "Bash(set PATH=%JAVA_HOME%bin)",
+      "Bash(%PATH%)",
+      "Bash(\"C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin\\java.exe\" -version)",
+      "Bash(npx cap:*)",
+      "Bash(gradlew.bat assembleDebug)",
+      "Bash(.gradlew.bat assembleDebug)",
+      "Bash(npm start)",
+      "Bash(cmd /c gradlew.bat assembleDebug)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(del nul)",
+      "Bash(powershell -Command \"& .\\gradlew.bat assembleDebug\")",
+      "Bash(git config:*)",
+      "Bash(powershell -Command \"$env:JAVA_HOME=''C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot''; & .\\gradlew.bat assembleDebug\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
