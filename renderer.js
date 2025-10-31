@@ -10,7 +10,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let clanData = null;
 let filteredMembers = [];
 let ogMembers = new Set(); // Store player IDs of OG members
-let ogBonusMonths = 2; // Default bonus months for OG members
+let ogJoinDate = '2025-04-04'; // Default OG join date
 let manualJoinDates = {}; // Store player ID -> custom join date mappings
 
 // Load settings from Supabase
@@ -25,8 +25,8 @@ async function loadSettings() {
         data.forEach(setting => {
             if (setting.key === 'og_members') {
                 ogMembers = new Set(setting.value);
-            } else if (setting.key === 'og_bonus_months') {
-                ogBonusMonths = parseInt(setting.value);
+            } else if (setting.key === 'og_join_date') {
+                ogJoinDate = setting.value;
             } else if (setting.key === 'manual_join_dates') {
                 manualJoinDates = setting.value;
             }
@@ -38,9 +38,9 @@ async function loadSettings() {
         if (savedOgMembers) {
             ogMembers = new Set(JSON.parse(savedOgMembers));
         }
-        const savedBonusMonths = localStorage.getItem('ogBonusMonths');
-        if (savedBonusMonths) {
-            ogBonusMonths = parseInt(savedBonusMonths);
+        const savedOgDate = localStorage.getItem('ogJoinDate');
+        if (savedOgDate) {
+            ogJoinDate = savedOgDate;
         }
         const savedJoinDates = localStorage.getItem('manualJoinDates');
         if (savedJoinDates) {
@@ -61,12 +61,12 @@ async function saveSettings() {
                 updated_at: new Date().toISOString()
             }, { onConflict: 'key' });
 
-        // Save OG bonus months
+        // Save OG join date
         await supabase
             .from('clan_settings')
             .upsert({
-                key: 'og_bonus_months',
-                value: ogBonusMonths,
+                key: 'og_join_date',
+                value: ogJoinDate,
                 updated_at: new Date().toISOString()
             }, { onConflict: 'key' });
 
@@ -81,7 +81,7 @@ async function saveSettings() {
 
         // Also save to localStorage as backup
         localStorage.setItem('ogMembers', JSON.stringify([...ogMembers]));
-        localStorage.setItem('ogBonusMonths', ogBonusMonths.toString());
+        localStorage.setItem('ogJoinDate', ogJoinDate);
         localStorage.setItem('manualJoinDates', JSON.stringify(manualJoinDates));
     } catch (error) {
         console.error('Error saving settings to Supabase:', error);
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
     loadClanData();
 
-    // Set OG bonus input value
-    document.getElementById('og-bonus-months').value = ogBonusMonths;
+    // Set OG join date input value
+    document.getElementById('og-join-date').value = ogJoinDate;
 });
 
 function setupEventListeners() {
@@ -126,6 +126,7 @@ function setupEventListeners() {
     // Member filters
     document.getElementById('search').addEventListener('input', filterMembers);
     document.getElementById('role-filter').addEventListener('change', filterMembers);
+    document.getElementById('og-filter').addEventListener('change', filterMembers);
     document.getElementById('sort-by').addEventListener('change', filterMembers);
 
     // Gains
@@ -140,7 +141,6 @@ function setupEventListeners() {
     document.getElementById('save-settings').addEventListener('click', saveSettingsModal);
     document.getElementById('add-bulk-og').addEventListener('click', addBulkOgMembers);
     document.getElementById('remove-all-og').addEventListener('click', removeAllOgMembers);
-    document.getElementById('apply-og-date').addEventListener('click', applyOgJoinDate);
 
     // Close modal on background click
     document.getElementById('settings-modal').addEventListener('click', (e) => {
@@ -219,12 +219,17 @@ function populateRoleFilter() {
 function filterMembers() {
     const searchTerm = document.getElementById('search').value.toLowerCase();
     const roleFilter = document.getElementById('role-filter').value;
+    const ogFilter = document.getElementById('og-filter').value;
     const sortBy = document.getElementById('sort-by').value;
 
     filteredMembers = clanData.memberships.filter(member => {
         const matchesSearch = member.player.username.toLowerCase().includes(searchTerm);
         const matchesRole = !roleFilter || member.role === roleFilter;
-        return matchesSearch && matchesRole;
+        const isOg = ogMembers.has(member.player.id);
+        const matchesOgFilter = !ogFilter ||
+            (ogFilter === 'og' && isOg) ||
+            (ogFilter === 'non-og' && !isOg);
+        return matchesSearch && matchesRole && matchesOgFilter;
     });
 
     // Sort
@@ -511,8 +516,18 @@ function closeSettings() {
 }
 
 function saveSettingsModal() {
-    ogBonusMonths = parseInt(document.getElementById('og-bonus-months').value);
+    ogJoinDate = document.getElementById('og-join-date').value;
+
+    // Update all OG members with the new join date
+    ogMembers.forEach(playerId => {
+        // Only update if they don't have a manual override
+        if (!manualJoinDates.hasOwnProperty(playerId)) {
+            // This will be handled by getJoinDate() automatically
+        }
+    });
+
     saveSettings();
+    displayMembers();
     closeSettings();
 
     // Refresh displays if we're on the promotions tab
@@ -523,6 +538,15 @@ function saveSettingsModal() {
 
 // Join Date Management functions
 function getJoinDate(playerId, apiJoinDate) {
+    // If player is OG, return OG join date (unless manually overridden)
+    if (ogMembers.has(playerId)) {
+        // Check if there's a manual override
+        if (manualJoinDates.hasOwnProperty(playerId)) {
+            return manualJoinDates[playerId];
+        }
+        // Return the OG join date
+        return new Date(ogJoinDate).toISOString();
+    }
     // Return manual date if set, otherwise return API date
     if (manualJoinDates.hasOwnProperty(playerId)) {
         return manualJoinDates[playerId];
@@ -581,8 +605,14 @@ window.editJoinDate = function(playerId, playerName, currentDate) {
 window.toggleOgMember = function(playerId) {
     if (ogMembers.has(playerId)) {
         ogMembers.delete(playerId);
+        // Remove manual join date override if exists
+        if (manualJoinDates.hasOwnProperty(playerId)) {
+            delete manualJoinDates[playerId];
+        }
     } else {
         ogMembers.add(playerId);
+        // Automatically set their join date to the OG join date
+        // This is now handled by getJoinDate() function
     }
     saveSettings();
     displayMembers();
@@ -670,54 +700,9 @@ function removeAllOgMembers() {
     alert(`✓ Removed ${count} OG members.`);
 }
 
-function applyOgJoinDate() {
-    if (!clanData || !clanData.memberships) {
-        alert('Please wait for clan data to load first!');
-        return;
-    }
-
-    if (ogMembers.size === 0) {
-        alert('No OG members found. Please mark some members as OG first.');
-        return;
-    }
-
-    const dateInput = document.getElementById('og-join-date').value;
-    if (!dateInput) {
-        alert('Please select a date first.');
-        return;
-    }
-
-    const selectedDate = new Date(dateInput);
-    if (isNaN(selectedDate.getTime())) {
-        alert('Invalid date selected.');
-        return;
-    }
-
-    // Confirm action
-    if (!confirm(`Set join date to ${selectedDate.toLocaleDateString()} for all ${ogMembers.size} OG members?`)) {
-        return;
-    }
-
-    // Apply the date to all OG members
-    let updatedCount = 0;
-    ogMembers.forEach(playerId => {
-        manualJoinDates[playerId] = selectedDate.toISOString();
-        updatedCount++;
-    });
-
-    saveSettings();
-    displayMembers();
-
-    if (clanData) {
-        displayPromotions();
-    }
-
-    alert(`✓ Set join date for ${updatedCount} OG members to ${selectedDate.toLocaleDateString()}`);
-}
-
 // Promotion functions
 function calculateMonthsInClan(apiJoinDate, playerId) {
-    // Use manual join date if set, otherwise use API date
+    // Use getJoinDate which handles OG members automatically
     const joinDate = getJoinDate(playerId, apiJoinDate);
 
     const now = new Date();
@@ -725,11 +710,6 @@ function calculateMonthsInClan(apiJoinDate, playerId) {
     const diffTime = Math.abs(now - joined);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     let months = diffDays / 30; // Approximate months
-
-    // Add OG bonus if applicable
-    if (ogMembers.has(playerId)) {
-        months += ogBonusMonths;
-    }
 
     return months;
 }

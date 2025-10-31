@@ -41,6 +41,11 @@
                     <select id="role-filter">
                         <option value="">All Roles</option>
                     </select>
+                    <select id="og-filter">
+                        <option value="">All Members</option>
+                        <option value="og">OG Members Only</option>
+                        <option value="non-og">Non-OG Members</option>
+                    </select>
                     <select id="sort-by">
                         <option value="username">Username</option>
                         <option value="exp">Total XP</option>
@@ -150,26 +155,22 @@
             </div>
             <div class="modal-body">
                 <div class="setting-group">
-                    <label for="og-bonus-months">OG Member Bonus (months)</label>
-                    <input type="number" id="og-bonus-months" min="0" max="24" value="2">
-                    <p class="setting-description">Members marked as "OG Member" will have this many months added to their time in clan for promotion calculations.</p>
+                    <label for="og-join-date">OG Member Join Date</label>
+                    <input type="date" id="og-join-date" value="2025-04-04">
+                    <p class="setting-description">Set the join date for all OG members. When you mark someone as OG, they will automatically get this join date. Changing this date will update all OG members (unless they have a manual override).</p>
                 </div>
 
                 <div class="setting-group">
                     <label>Bulk OG Management</label>
                     <textarea id="og-usernames" rows="8" placeholder="Enter usernames (one per line or comma-separated)"></textarea>
-                    <p class="setting-description">Enter usernames to mark as OG members. Usernames are case-insensitive.</p>
+                    <p class="setting-description">Enter usernames to mark as OG members. They will automatically get the OG join date set above. Usernames are case-insensitive.</p>
                     <div style="display: flex; gap: 10px; margin-top: 10px;">
                         <button id="add-bulk-og" style="flex: 1;">Add All as OG</button>
                         <button id="remove-all-og" style="flex: 1; background: linear-gradient(135deg, rgba(183, 28, 28, 0.6), rgba(136, 14, 79, 0.6));">Clear All OG</button>
                     </div>
-                </div>
-
-                <div class="setting-group">
-                    <label for="og-join-date">OG Member Join Date</label>
-                    <input type="date" id="og-join-date" value="2025-04-04">
-                    <p class="setting-description">Set the join date for all OG members. Click "Apply to All OG" to update all current OG members with this date.</p>
-                    <button id="apply-og-date" style="margin-top: 10px; width: 100%;">Apply Date to All OG Members</button>
+                    <p class="setting-description" style="margin-top: 10px; font-size: 0.85em; opacity: 0.8;">
+                        💡 Tip: Use the "OG Members Only" filter on the main page to view all current OG members.
+                    </p>
                 </div>
 
                 <button id="save-settings" class="primary-btn">Save Settings</button>
