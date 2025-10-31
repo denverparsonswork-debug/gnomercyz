@@ -838,7 +838,7 @@ function displayPromotions() {
                 </div>
                 <div class="promo-time-info">
                     <span class="promo-time-label">Joined</span>
-                    <span class="promo-time-value">${new Date(member.createdAt).toLocaleDateString()}</span>
+                    <span class="promo-time-value">${new Date(getJoinDate(member.player.id, member.createdAt)).toLocaleDateString()}</span>
                 </div>
                 <div class="promo-suggested-rank">
                     <div class="promo-arrow">↑</div>
