@@ -745,46 +745,70 @@ button:active {
         grid-template-columns: 1fr;
     }
 
-    /* Member cards - single column layout */
+    /* Member cards - better mobile layout */
     .member-card {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         padding: 15px;
-        gap: 10px;
+        gap: 15px;
     }
 
-    .member-info,
-    .member-stats {
+    .member-card > div:first-child {
+        /* Member info section */
         grid-column: 1;
-    }
-
-    .member-info {
-        gap: 8px;
+        grid-row: 1;
     }
 
     .member-name {
-        font-size: 16px;
-    }
-
-    .member-role {
-        font-size: 13px;
-    }
-
-    .member-stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .stat-item {
-        min-width: unset;
-    }
-
-    .stat-value {
         font-size: 18px;
     }
 
-    .stat-label {
+    .member-role {
+        font-size: 12px;
+    }
+
+    .member-type {
         font-size: 11px;
+    }
+
+    /* Stats in 2-column grid below name */
+    .member-card .member-stat {
+        text-align: left;
+        padding: 10px;
+        background: rgba(16, 46, 28, 0.4);
+        border-radius: 8px;
+        border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+
+    .member-card .member-stat:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .member-card .member-stat:nth-child(3) {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .member-card .member-stat:nth-child(4) {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .member-card .member-stat:nth-child(5) {
+        grid-column: 1;
+        grid-row: 5;
+    }
+
+    .member-stat .stat-label {
+        font-size: 11px;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .member-stat .stat-value {
+        font-size: 16px;
+        display: block;
     }
 
     /* Gains/Hiscores - simplified layout */
@@ -887,17 +911,17 @@ button:active {
 /* Tablet Devices (601px - 900px) */
 @media (min-width: 601px) and (max-width: 900px) {
     /* Header adjustments */
-    .header h1 {
+    header h1 {
         font-size: 28px;
     }
 
-    .header button {
+    .header-buttons button {
         font-size: 13px;
         padding: 9px 14px;
     }
 
     /* Tabs */
-    .tab {
+    .tab-btn {
         font-size: 14px;
         padding: 11px 18px;
     }
@@ -907,19 +931,27 @@ button:active {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Member cards - 2 column layout for stats */
+    /* Member cards - 3 column layout: name, joined+xp, ehp+ehb */
     .member-card {
-        grid-template-columns: 2fr 2fr;
-        padding: 18px;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        padding: 15px;
+        gap: 12px;
     }
 
-    .member-info {
-        grid-column: span 2;
+    .member-card > div:first-child {
+        grid-column: 1;
     }
 
-    .member-stats {
-        grid-column: span 2;
-        grid-template-columns: repeat(2, 1fr);
+    .member-stat {
+        text-align: center;
+    }
+
+    .member-stat .stat-label {
+        font-size: 10px;
+    }
+
+    .member-stat .stat-value {
+        font-size: 14px;
     }
 
     /* Gains/Hiscores - maintain structure but tighter */
