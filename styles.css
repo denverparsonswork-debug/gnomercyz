@@ -661,3 +661,278 @@ button:active {
     background: linear-gradient(135deg, rgba(56, 142, 60, 0.8), rgba(27, 94, 32, 1));
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Mobile Devices (≤600px) */
+@media (max-width: 600px) {
+    /* Header adjustments */
+    .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .header-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .header button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    /* Tabs - make horizontally scrollable */
+    .tabs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        gap: 5px;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab {
+        font-size: 13px;
+        padding: 10px 15px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* Filters - stack vertically */
+    .filters {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100%;
+        min-width: unset;
+        font-size: 14px;
+    }
+
+    /* Clan stats - already responsive with auto-fit */
+    .clan-stats {
+        grid-template-columns: 1fr;
+    }
+
+    /* Member cards - single column layout */
+    .member-card {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .member-info,
+    .member-stats {
+        grid-column: 1;
+    }
+
+    .member-info {
+        gap: 8px;
+    }
+
+    .member-name {
+        font-size: 16px;
+    }
+
+    .member-role {
+        font-size: 13px;
+    }
+
+    .member-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .stat-item {
+        min-width: unset;
+    }
+
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+    }
+
+    /* Gains/Hiscores - simplified layout */
+    .gains-card,
+    .hiscores-card {
+        grid-template-columns: 40px 1fr;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .gains-rank,
+    .hiscores-rank {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .gains-info,
+    .hiscores-info {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .gains-player,
+    .hiscores-player {
+        font-size: 15px;
+    }
+
+    .gains-stats,
+    .hiscores-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .gains-value,
+    .hiscores-value {
+        font-size: 14px;
+    }
+
+    /* Promotions - single column */
+    .promotion-card {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .promotion-player {
+        grid-column: 1;
+    }
+
+    .promotion-player-name {
+        font-size: 16px;
+    }
+
+    .promotion-time,
+    .promotion-joined,
+    .promotion-suggestion {
+        grid-column: 1;
+        text-align: left;
+    }
+
+    .promotion-time-label,
+    .promotion-joined-label,
+    .promotion-suggestion-label {
+        font-size: 11px;
+    }
+
+    .promotion-time-value,
+    .promotion-joined-value {
+        font-size: 14px;
+    }
+
+    .promotion-suggestion-role {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    /* Modal adjustments */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        padding: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    /* Settings modal */
+    .setting-item label {
+        font-size: 14px;
+    }
+
+    .setting-item input {
+        font-size: 14px;
+    }
+}
+
+/* Tablet Devices (601px - 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+    /* Header adjustments */
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .header button {
+        font-size: 13px;
+        padding: 9px 14px;
+    }
+
+    /* Tabs */
+    .tab {
+        font-size: 14px;
+        padding: 11px 18px;
+    }
+
+    /* Clan stats - 2 columns */
+    .clan-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Member cards - 2 column layout for stats */
+    .member-card {
+        grid-template-columns: 2fr 2fr;
+        padding: 18px;
+    }
+
+    .member-info {
+        grid-column: span 2;
+    }
+
+    .member-stats {
+        grid-column: span 2;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Gains/Hiscores - maintain structure but tighter */
+    .gains-card,
+    .hiscores-card {
+        grid-template-columns: 45px 2fr 1fr;
+        padding: 14px;
+    }
+
+    /* Promotions - 2 columns */
+    .promotion-card {
+        grid-template-columns: 2fr 1fr;
+        padding: 16px;
+    }
+
+    .promotion-player {
+        grid-column: 1;
+        grid-row: span 2;
+    }
+
+    .promotion-time {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .promotion-joined {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .promotion-suggestion {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+}

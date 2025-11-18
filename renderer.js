@@ -104,6 +104,9 @@ const PROMOTION_RULES = [
 // Roles that are excluded from auto-promotion (leadership/special roles)
 const EXCLUDED_ROLES = ['owner', 'deputy_owner', 'marshal', 'admiral', 'maxed', 'colonel', 'slayer', 'hellcat', 'bob', 'justiciar', 'competitor', 'sheriff'];
 
+// Only these ranks are eligible for promotion tracking (knight and paladin are excluded as they're special/end-game ranks)
+const PROMOTABLE_RANKS = ['squire', 'duellist', 'striker', 'ninja', 'inquisitor', 'expert'];
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
     await loadSettings();
@@ -717,6 +720,11 @@ function calculateMonthsInClan(apiJoinDate, playerId) {
 function getNextPromotion(currentRole, monthsInClan) {
     // Skip if excluded role
     if (EXCLUDED_ROLES.includes(currentRole.toLowerCase())) {
+        return null;
+    }
+
+    // Only show promotions for members with promotable ranks (excludes knight, paladin, and special ranks)
+    if (!PROMOTABLE_RANKS.includes(currentRole.toLowerCase())) {
         return null;
     }
 
