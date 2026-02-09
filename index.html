@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gnomercyz Clan Tracker</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
@@ -15,7 +14,6 @@
                 <span id="member-count">Loading...</span>
             </div>
             <div class="header-buttons">
-                <button id="settings-btn">⚙️ Settings</button>
                 <button id="refresh-btn">Refresh Data</button>
             </div>
         </header>
@@ -144,38 +142,6 @@
             <!-- Stats Tab -->
             <div id="stats-tab" class="tab-content">
                 <div id="clan-stats" class="clan-stats"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Settings</h2>
-                <button id="close-settings" class="close-btn">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="setting-group">
-                    <label for="og-join-date">OG Member Join Date</label>
-                    <input type="date" id="og-join-date" value="2025-04-04">
-                    <p class="setting-description">Set the join date for all OG members. When you mark someone as OG, they will automatically get this join date. Changing this date will update all OG members (unless they have a manual override).</p>
-                </div>
-
-                <div class="setting-group">
-                    <label>Bulk OG Management</label>
-                    <textarea id="og-usernames" rows="8" placeholder="Enter usernames (one per line or comma-separated)"></textarea>
-                    <p class="setting-description">Enter usernames to mark as OG members. They will automatically get the OG join date set above. Usernames are case-insensitive.</p>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <button id="add-bulk-og" style="flex: 1;">Add All as OG</button>
-                        <button id="remove-all-og" style="flex: 1; background: linear-gradient(135deg, rgba(183, 28, 28, 0.6), rgba(136, 14, 79, 0.6));">Clear All OG</button>
-                    </div>
-                    <p class="setting-description" style="margin-top: 10px; font-size: 0.85em; opacity: 0.8;">
-                        💡 Tip: Use the "OG Members Only" filter on the main page to view all current OG members.
-                    </p>
-                </div>
-
-                <button id="save-settings" class="primary-btn">Save Settings</button>
             </div>
         </div>
     </div>

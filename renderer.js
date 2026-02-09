@@ -1,92 +1,41 @@
 const GROUP_ID = 12513;
 const API_BASE = 'https://api.wiseoldman.net/v2';
 
-// Initialize Supabase client
-const SUPABASE_URL = 'https://erhjgzqmhwetbxyrxsro.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyaGpnenFtaHdldGJ4eXJ4c3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2ODA2NjcsImV4cCI6MjA3NzI1NjY2N30.2GXUD7l5zSAbO_mhkvSUaQUbDfWYdy_R1RYPvisB_zI';
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 let clanData = null;
 let filteredMembers = [];
 let ogMembers = new Set(); // Store player IDs of OG members
+let ogMemberUsernames = []; // Store usernames from data.json
 let ogJoinDate = '2025-04-04'; // Default OG join date
 let manualJoinDates = {}; // Store player ID -> custom join date mappings
 
-// Load settings from Supabase
+// Load settings from data.json (deployed with the site)
 async function loadSettings() {
     try {
-        const { data, error } = await supabase
-            .from('clan_settings')
-            .select('key, value');
-
-        if (error) throw error;
-
-        data.forEach(setting => {
-            if (setting.key === 'og_members') {
-                ogMembers = new Set(setting.value);
-            } else if (setting.key === 'og_join_date') {
-                ogJoinDate = setting.value;
-            } else if (setting.key === 'manual_join_dates') {
-                manualJoinDates = setting.value;
-            }
-        });
+        const response = await fetch('./data.json');
+        if (response.ok) {
+            const data = await response.json();
+            ogMemberUsernames = data.ogMembers || [];
+            ogJoinDate = data.ogJoinDate || '2025-04-04';
+            manualJoinDates = data.manualJoinDates || {};
+        }
     } catch (error) {
-        console.error('Error loading settings from Supabase:', error);
-        // Fall back to localStorage if Supabase fails
-        const savedOgMembers = localStorage.getItem('ogMembers');
-        if (savedOgMembers) {
-            ogMembers = new Set(JSON.parse(savedOgMembers));
-        }
-        const savedOgDate = localStorage.getItem('ogJoinDate');
-        if (savedOgDate) {
-            ogJoinDate = savedOgDate;
-        }
-        const savedJoinDates = localStorage.getItem('manualJoinDates');
-        if (savedJoinDates) {
-            manualJoinDates = JSON.parse(savedJoinDates);
-        }
+        console.log('Could not load data.json, using defaults');
     }
 }
 
-// Save settings to Supabase
-async function saveSettings() {
-    try {
-        // Save OG members
-        await supabase
-            .from('clan_settings')
-            .upsert({
-                key: 'og_members',
-                value: [...ogMembers],
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'key' });
+// Convert usernames to player IDs after clan data loads
+function resolveOgMemberIds() {
+    if (!clanData || !clanData.memberships) return;
 
-        // Save OG join date
-        await supabase
-            .from('clan_settings')
-            .upsert({
-                key: 'og_join_date',
-                value: ogJoinDate,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'key' });
-
-        // Save manual join dates
-        await supabase
-            .from('clan_settings')
-            .upsert({
-                key: 'manual_join_dates',
-                value: manualJoinDates,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'key' });
-
-        // Also save to localStorage as backup
-        localStorage.setItem('ogMembers', JSON.stringify([...ogMembers]));
-        localStorage.setItem('ogJoinDate', ogJoinDate);
-        localStorage.setItem('manualJoinDates', JSON.stringify(manualJoinDates));
-    } catch (error) {
-        console.error('Error saving settings to Supabase:', error);
-        alert('Failed to sync settings to cloud. Changes saved locally only.');
-    }
+    ogMembers.clear();
+    ogMemberUsernames.forEach(username => {
+        const member = clanData.memberships.find(m =>
+            m.player.username.toLowerCase() === username.toLowerCase()
+        );
+        if (member) {
+            ogMembers.add(member.player.id);
+        }
+    });
 }
 
 // Promotion rules based on time in clan
@@ -112,9 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadSettings();
     setupEventListeners();
     loadClanData();
-
-    // Set OG join date input value
-    document.getElementById('og-join-date').value = ogJoinDate;
 });
 
 function setupEventListeners() {
@@ -137,20 +83,6 @@ function setupEventListeners() {
 
     // Hiscores
     document.getElementById('load-hiscores').addEventListener('click', loadHiscores);
-
-    // Settings modal
-    document.getElementById('settings-btn').addEventListener('click', openSettings);
-    document.getElementById('close-settings').addEventListener('click', closeSettings);
-    document.getElementById('save-settings').addEventListener('click', saveSettingsModal);
-    document.getElementById('add-bulk-og').addEventListener('click', addBulkOgMembers);
-    document.getElementById('remove-all-og').addEventListener('click', removeAllOgMembers);
-
-    // Close modal on background click
-    document.getElementById('settings-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'settings-modal') {
-            closeSettings();
-        }
-    });
 }
 
 function switchTab(tabName) {
@@ -177,17 +109,16 @@ async function loadClanData() {
     hideError();
 
     try {
-        const response = await fetch(`${API_BASE}/groups/${GROUP_ID}`, {
-            headers: {
-                'User-Agent': 'GnomercyzClanTool/1.0'
-            }
-        });
+        const response = await fetch(`${API_BASE}/groups/${GROUP_ID}`);
 
         if (!response.ok) {
             throw new Error(`API Error: ${response.status}`);
         }
 
         clanData = await response.json();
+
+        // Resolve OG member usernames to IDs
+        resolveOgMemberIds();
 
         // Update UI
         updateMemberCount();
@@ -262,24 +193,14 @@ function displayMembers() {
         const player = member.player;
         const isOg = ogMembers.has(player.id);
         const ogBadge = isOg ? '<span class="og-badge">OG</span>' : '';
-        const ogButtonText = isOg ? 'Remove OG' : 'Make OG';
-        const ogButtonClass = isOg ? 'og-toggle-btn active' : 'og-toggle-btn';
-
-        // Check if join date has been manually set
         const joinDate = getJoinDate(player.id, member.createdAt);
-        const isManualDate = manualJoinDates.hasOwnProperty(player.id);
-        const dateBadge = isManualDate ? '<span class="manual-date-badge">📅</span>' : '';
 
         return `
             <div class="member-card">
                 <div>
-                    <div class="member-name">${player.displayName}${ogBadge}${dateBadge}</div>
+                    <div class="member-name">${player.displayName}${ogBadge}</div>
                     <div class="member-role">${formatRole(member.role)}</div>
                     <div class="member-type">${formatAccountType(player.type)} | ${formatBuild(player.build)}</div>
-                    <div style="display: flex; gap: 5px; margin-top: 8px;">
-                        <button class="${ogButtonClass}" onclick="toggleOgMember(${player.id})">${ogButtonText}</button>
-                        <button class="edit-date-btn" onclick="editJoinDate(${player.id}, '${player.displayName}', '${member.createdAt}')">📅 Edit Date</button>
-                    </div>
                 </div>
                 <div class="member-stat">
                     <span class="stat-label">Joined</span>
@@ -311,10 +232,7 @@ async function loadGains() {
 
     try {
         const response = await fetch(
-            `${API_BASE}/groups/${GROUP_ID}/gained?metric=${metric}&period=${period}&limit=50`,
-            {
-                headers: { 'User-Agent': 'GnomercyzClanTool/1.0' }
-            }
+            `${API_BASE}/groups/${GROUP_ID}/gained?metric=${metric}&period=${period}&limit=50`
         );
 
         if (!response.ok) throw new Error(`API Error: ${response.status}`);
@@ -354,10 +272,7 @@ async function loadHiscores() {
 
     try {
         const response = await fetch(
-            `${API_BASE}/groups/${GROUP_ID}/hiscores?metric=${metric}&limit=50`,
-            {
-                headers: { 'User-Agent': 'GnomercyzClanTool/1.0' }
-            }
+            `${API_BASE}/groups/${GROUP_ID}/hiscores?metric=${metric}&limit=50`
         );
 
         if (!response.ok) throw new Error(`API Error: ${response.status}`);
@@ -394,10 +309,7 @@ async function loadClanStats() {
 
     try {
         const response = await fetch(
-            `${API_BASE}/groups/${GROUP_ID}/statistics`,
-            {
-                headers: { 'User-Agent': 'GnomercyzClanTool/1.0' }
-            }
+            `${API_BASE}/groups/${GROUP_ID}/statistics`
         );
 
         if (!response.ok) throw new Error(`API Error: ${response.status}`);
@@ -509,36 +421,6 @@ function hideError() {
     error.classList.add('hidden');
 }
 
-// Settings modal functions
-function openSettings() {
-    document.getElementById('settings-modal').classList.remove('hidden');
-}
-
-function closeSettings() {
-    document.getElementById('settings-modal').classList.add('hidden');
-}
-
-function saveSettingsModal() {
-    ogJoinDate = document.getElementById('og-join-date').value;
-
-    // Update all OG members with the new join date
-    ogMembers.forEach(playerId => {
-        // Only update if they don't have a manual override
-        if (!manualJoinDates.hasOwnProperty(playerId)) {
-            // This will be handled by getJoinDate() automatically
-        }
-    });
-
-    saveSettings();
-    displayMembers();
-    closeSettings();
-
-    // Refresh displays if we're on the promotions tab
-    if (clanData) {
-        displayPromotions();
-    }
-}
-
 // Join Date Management functions
 function getJoinDate(playerId, apiJoinDate) {
     // If player is OG, return OG join date (unless manually overridden)
@@ -555,152 +437,6 @@ function getJoinDate(playerId, apiJoinDate) {
         return manualJoinDates[playerId];
     }
     return apiJoinDate;
-}
-
-window.editJoinDate = function(playerId, playerName, currentDate) {
-    const currentJoinDate = getJoinDate(playerId, currentDate);
-    const dateObj = new Date(currentJoinDate);
-    const formattedDate = dateObj.toISOString().split('T')[0]; // YYYY-MM-DD format
-
-    const newDate = prompt(
-        `Edit join date for ${playerName}\n\nCurrent: ${dateObj.toLocaleDateString()}\n\nEnter new date (YYYY-MM-DD):`,
-        formattedDate
-    );
-
-    if (newDate === null) {
-        return; // User cancelled
-    }
-
-    if (newDate === '') {
-        // Remove manual override, revert to API date
-        if (manualJoinDates.hasOwnProperty(playerId)) {
-            delete manualJoinDates[playerId];
-            saveSettings();
-            displayMembers();
-            if (clanData) {
-                displayPromotions();
-            }
-            alert(`✓ Reverted ${playerName}'s join date to Wise Old Man date.`);
-        }
-        return;
-    }
-
-    // Validate date
-    const parsedDate = new Date(newDate);
-    if (isNaN(parsedDate.getTime())) {
-        alert('Invalid date format! Please use YYYY-MM-DD (e.g., 2024-06-15)');
-        return;
-    }
-
-    // Save the manual date
-    manualJoinDates[playerId] = parsedDate.toISOString();
-    saveSettings();
-    displayMembers();
-
-    if (clanData) {
-        displayPromotions();
-    }
-
-    alert(`✓ Updated ${playerName}'s join date to ${parsedDate.toLocaleDateString()}\n\nThis will override the Wise Old Man date permanently.`);
-}
-
-// OG Member functions
-window.toggleOgMember = function(playerId) {
-    if (ogMembers.has(playerId)) {
-        ogMembers.delete(playerId);
-        // Remove manual join date override if exists
-        if (manualJoinDates.hasOwnProperty(playerId)) {
-            delete manualJoinDates[playerId];
-        }
-    } else {
-        ogMembers.add(playerId);
-        // Automatically set their join date to the OG join date
-        // This is now handled by getJoinDate() function
-    }
-    saveSettings();
-    displayMembers();
-
-    // Refresh promotions if on that tab
-    if (clanData) {
-        displayPromotions();
-    }
-}
-
-function addBulkOgMembers() {
-    if (!clanData || !clanData.memberships) {
-        alert('Please wait for clan data to load first!');
-        return;
-    }
-
-    const textarea = document.getElementById('og-usernames');
-    const input = textarea.value.trim();
-
-    if (!input) {
-        alert('Please enter usernames to add as OG members.');
-        return;
-    }
-
-    // Parse usernames - handle both newlines and commas
-    const usernames = input
-        .split(/[\n,]+/)
-        .map(name => name.trim().toLowerCase())
-        .filter(name => name.length > 0);
-
-    let addedCount = 0;
-    let notFoundCount = 0;
-    const notFound = [];
-
-    // Find and add members
-    clanData.memberships.forEach(member => {
-        const username = member.player.username.toLowerCase();
-        if (usernames.includes(username)) {
-            if (!ogMembers.has(member.player.id)) {
-                ogMembers.add(member.player.id);
-                addedCount++;
-            }
-        }
-    });
-
-    // Check for not found usernames
-    usernames.forEach(username => {
-        const found = clanData.memberships.some(m =>
-            m.player.username.toLowerCase() === username
-        );
-        if (!found) {
-            notFound.push(username);
-            notFoundCount++;
-        }
-    });
-
-    saveSettings();
-    displayMembers();
-    if (clanData) {
-        displayPromotions();
-    }
-
-    // Show results
-    let message = `✓ Added ${addedCount} new OG members!\nTotal OG members: ${ogMembers.size}`;
-    if (notFoundCount > 0) {
-        message += `\n\n⚠ ${notFoundCount} usernames not found in clan:\n${notFound.join(', ')}`;
-    }
-    alert(message);
-}
-
-function removeAllOgMembers() {
-    if (!confirm('Are you sure you want to remove ALL OG members?')) {
-        return;
-    }
-
-    const count = ogMembers.size;
-    ogMembers.clear();
-    saveSettings();
-    displayMembers();
-
-    if (clanData) {
-        displayPromotions();
-    }
-
-    alert(`✓ Removed ${count} OG members.`);
 }
 
 // Promotion functions
