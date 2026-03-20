@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnomercyz - Clan Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="tracker-nav">
+        <a href="index.html" class="tracker-nav-back">← Back to Home</a>
+        <span class="tracker-nav-title">Clan Tracker</span>
+    </div>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Gnomercyz Clan Tracker</h1>
+                <span id="member-count">Loading...</span>
+            </div>
+            <div class="header-buttons">
+                <button id="refresh-btn">Refresh Data</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="members">Members</button>
+            <button class="tab-btn" data-tab="promotions">Who Needs Promoted</button>
+            <button class="tab-btn" data-tab="gains">Gains</button>
+            <button class="tab-btn" data-tab="hiscores">Hiscores</button>
+            <button class="tab-btn" data-tab="stats">Clan Stats</button>
+        </div>
+
+        <div class="content">
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Loading clan data...</p>
+            </div>
+
+            <div id="error" class="error hidden"></div>
+
+            <!-- Members Tab -->
+            <div id="members-tab" class="tab-content active">
+                <div class="filters">
+                    <input type="text" id="search" placeholder="Search members...">
+                    <select id="role-filter">
+                        <option value="">All Roles</option>
+                    </select>
+                    <select id="og-filter">
+                        <option value="">All Members</option>
+                        <option value="og">OG Members Only</option>
+                        <option value="non-og">Non-OG Members</option>
+                    </select>
+                    <select id="sort-by">
+                        <option value="username">Username</option>
+                        <option value="exp">Total XP</option>
+                        <option value="ehp">EHP</option>
+                        <option value="ehb">EHB</option>
+                    </select>
+                </div>
+                <div id="members-list" class="members-list"></div>
+            </div>
+
+            <!-- Promotions Tab -->
+            <div id="promotions-tab" class="tab-content">
+                <div class="promotions-header">
+                    <h2>Members Ready for Promotion</h2>
+                    <p class="promo-subtitle">Based on join date and current rank</p>
+                </div>
+                <div id="promotions-list" class="promotions-list"></div>
+            </div>
+
+            <!-- Gains Tab -->
+            <div id="gains-tab" class="tab-content">
+                <div class="filters">
+                    <select id="gains-metric">
+                        <option value="overall">Overall</option>
+                        <option value="attack">Attack</option>
+                        <option value="defence">Defence</option>
+                        <option value="strength">Strength</option>
+                        <option value="hitpoints">Hitpoints</option>
+                        <option value="ranged">Ranged</option>
+                        <option value="prayer">Prayer</option>
+                        <option value="magic">Magic</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="woodcutting">Woodcutting</option>
+                        <option value="fletching">Fletching</option>
+                        <option value="fishing">Fishing</option>
+                        <option value="firemaking">Firemaking</option>
+                        <option value="crafting">Crafting</option>
+                        <option value="smithing">Smithing</option>
+                        <option value="mining">Mining</option>
+                        <option value="herblore">Herblore</option>
+                        <option value="agility">Agility</option>
+                        <option value="thieving">Thieving</option>
+                        <option value="slayer">Slayer</option>
+                        <option value="farming">Farming</option>
+                        <option value="runecraft">Runecraft</option>
+                        <option value="hunter">Hunter</option>
+                        <option value="construction">Construction</option>
+                    </select>
+                    <select id="gains-period">
+                        <option value="day">Last Day</option>
+                        <option value="week" selected>Last Week</option>
+                        <option value="month">Last Month</option>
+                        <option value="year">Last Year</option>
+                    </select>
+                    <button id="load-gains">Load Gains</button>
+                </div>
+                <div id="gains-list" class="gains-list"></div>
+            </div>
+
+            <!-- Hiscores Tab -->
+            <div id="hiscores-tab" class="tab-content">
+                <div class="filters">
+                    <select id="hiscores-metric">
+                        <option value="overall">Overall XP</option>
+                        <option value="attack">Attack</option>
+                        <option value="defence">Defence</option>
+                        <option value="strength">Strength</option>
+                        <option value="hitpoints">Hitpoints</option>
+                        <option value="ranged">Ranged</option>
+                        <option value="prayer">Prayer</option>
+                        <option value="magic">Magic</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="woodcutting">Woodcutting</option>
+                        <option value="fletching">Fletching</option>
+                        <option value="fishing">Fishing</option>
+                        <option value="firemaking">Firemaking</option>
+                        <option value="crafting">Crafting</option>
+                        <option value="smithing">Smithing</option>
+                        <option value="mining">Mining</option>
+                        <option value="herblore">Herblore</option>
+                        <option value="agility">Agility</option>
+                        <option value="thieving">Thieving</option>
+                        <option value="slayer">Slayer</option>
+                        <option value="farming">Farming</option>
+                        <option value="runecraft">Runecraft</option>
+                        <option value="hunter">Hunter</option>
+                        <option value="construction">Construction</option>
+                    </select>
+                    <button id="load-hiscores">Load Hiscores</button>
+                </div>
+                <div id="hiscores-list" class="hiscores-list"></div>
+            </div>
+
+            <!-- Stats Tab -->
+            <div id="stats-tab" class="tab-content">
+                <div id="clan-stats" class="clan-stats"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

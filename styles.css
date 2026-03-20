@@ -6,9 +6,9 @@
 
 body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background: linear-gradient(135deg, #0a1f0f 0%, #1a3d2e 50%, #2d5a4a 100%);
+    background: linear-gradient(135deg, #120a18 0%, #231335 50%, #3d1f55 100%);
     background-attachment: fixed;
-    color: #e8f5e9;
+    color: #f0eaf5;
     overflow: hidden;
     position: relative;
 }
@@ -21,9 +21,9 @@ body::before {
     right: 0;
     bottom: 0;
     background:
-        radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(46, 125, 50, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(27, 94, 32, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(128, 88, 149, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(90, 55, 115, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(60, 30, 80, 0.1) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
@@ -43,14 +43,14 @@ header {
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 2px solid rgba(76, 175, 80, 0.5);
-    text-shadow: 0 0 20px rgba(76, 175, 80, 0.5), 0 0 40px rgba(76, 175, 80, 0.3);
+    border-bottom: 2px solid rgba(128, 88, 149, 0.5);
+    text-shadow: 0 0 20px rgba(128, 88, 149, 0.5), 0 0 40px rgba(128, 88, 149, 0.3);
 }
 
 header h1 {
     font-size: 32px;
     font-weight: 700;
-    color: #81c784;
+    color: #b08ec5;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -68,18 +68,18 @@ header h1 {
 }
 
 #member-count {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.6), rgba(46, 125, 50, 0.6));
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.6), rgba(90, 55, 115, 0.6));
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 14px;
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(128, 88, 149, 0.4);
+    box-shadow: 0 0 15px rgba(128, 88, 149, 0.3);
 }
 
 button {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.4), rgba(27, 94, 32, 0.4));
-    border: 1px solid rgba(76, 175, 80, 0.5);
-    color: #a5d6a7;
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.4), rgba(60, 30, 80, 0.4));
+    border: 1px solid rgba(128, 88, 149, 0.5);
+    color: #c4aed4;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -91,11 +91,11 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(135deg, rgba(56, 142, 60, 0.6), rgba(27, 94, 32, 0.6));
-    border-color: rgba(76, 175, 80, 0.8);
+    background: linear-gradient(135deg, rgba(100, 65, 130, 0.6), rgba(60, 30, 80, 0.6));
+    border-color: rgba(128, 88, 149, 0.8);
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4), 0 0 30px rgba(76, 175, 80, 0.2);
-    color: #c8e6c9;
+    box-shadow: 0 4px 20px rgba(128, 88, 149, 0.4), 0 0 30px rgba(128, 88, 149, 0.2);
+    color: #d8cce0;
 }
 
 button:active {
@@ -109,8 +109,8 @@ button:active {
 }
 
 .tab-btn {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.3), rgba(46, 125, 50, 0.3));
-    border: 1px solid rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.3), rgba(90, 55, 115, 0.3));
+    border: 1px solid rgba(128, 88, 149, 0.3);
     border-bottom: none;
     padding: 10px 20px;
     border-radius: 12px 12px 0 0;
@@ -118,22 +118,22 @@ button:active {
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.5), rgba(27, 94, 32, 0.5));
-    border: 1px solid rgba(76, 175, 80, 0.6);
-    border-bottom: 3px solid #66bb6a;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.4), inset 0 0 20px rgba(76, 175, 80, 0.2);
-    color: #a5d6a7;
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.5), rgba(60, 30, 80, 0.5));
+    border: 1px solid rgba(128, 88, 149, 0.6);
+    border-bottom: 3px solid #9b6fb5;
+    box-shadow: 0 0 20px rgba(128, 88, 149, 0.4), inset 0 0 20px rgba(128, 88, 149, 0.2);
+    color: #c4aed4;
 }
 
 .content {
     flex: 1;
-    background: linear-gradient(135deg, rgba(16, 46, 28, 0.6), rgba(27, 94, 32, 0.4));
+    background: linear-gradient(135deg, rgba(20, 12, 30, 0.6), rgba(60, 30, 80, 0.4));
     border-radius: 10px;
     padding: 20px;
     overflow-y: auto;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3), 0 0 30px rgba(76, 175, 80, 0.2);
+    border: 1px solid rgba(128, 88, 149, 0.3);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3), 0 0 30px rgba(128, 88, 149, 0.2);
 }
 
 .tab-content {
@@ -153,9 +153,9 @@ button:active {
 
 .filters input,
 .filters select {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.4), rgba(16, 46, 28, 0.6));
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    color: #c8e6c9;
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.4), rgba(20, 12, 30, 0.6));
+    border: 1px solid rgba(128, 88, 149, 0.4);
+    color: #d8cce0;
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 14px;
@@ -165,12 +165,12 @@ button:active {
 }
 
 .filters input::placeholder {
-    color: rgba(165, 214, 167, 0.6);
+    color: rgba(196, 174, 212, 0.6);
 }
 
 .filters select option {
-    background: #1b5e20;
-    color: #c8e6c9;
+    background: #3a1d50;
+    color: #d8cce0;
 }
 
 .loading {
@@ -187,13 +187,13 @@ button:active {
 }
 
 .spinner {
-    border: 4px solid rgba(76, 175, 80, 0.3);
-    border-top: 4px solid #66bb6a;
+    border: 4px solid rgba(128, 88, 149, 0.3);
+    border-top: 4px solid #9b6fb5;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 20px rgba(128, 88, 149, 0.5);
 }
 
 @keyframes spin {
@@ -216,7 +216,7 @@ button:active {
 }
 
 .member-card {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.3), rgba(16, 46, 28, 0.5));
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.3), rgba(20, 12, 30, 0.5));
     padding: 15px;
     border-radius: 10px;
     display: grid;
@@ -224,15 +224,15 @@ button:active {
     align-items: center;
     gap: 15px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    border: 1px solid rgba(128, 88, 149, 0.4);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .member-card:hover {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.4), rgba(27, 94, 32, 0.6));
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.4), rgba(60, 30, 80, 0.6));
     transform: translateX(5px);
-    border-color: rgba(76, 175, 80, 0.6);
-    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3), 0 0 15px rgba(76, 175, 80, 0.2);
+    border-color: rgba(128, 88, 149, 0.6);
+    box-shadow: 0 4px 20px rgba(128, 88, 149, 0.3), 0 0 15px rgba(128, 88, 149, 0.2);
 }
 
 .member-name {
@@ -241,16 +241,16 @@ button:active {
 }
 
 .member-role {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.5), rgba(27, 94, 32, 0.5));
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.5), rgba(60, 30, 80, 0.5));
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 12px;
     display: inline-block;
     margin-top: 5px;
     text-transform: capitalize;
-    border: 1px solid rgba(76, 175, 80, 0.5);
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-    color: #a5d6a7;
+    border: 1px solid rgba(128, 88, 149, 0.5);
+    box-shadow: 0 0 10px rgba(128, 88, 149, 0.3);
+    color: #c4aed4;
 }
 
 .member-type {
@@ -283,14 +283,14 @@ button:active {
 
 .gain-card,
 .hiscore-card {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.3), rgba(16, 46, 28, 0.5));
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.3), rgba(20, 12, 30, 0.5));
     padding: 15px;
     border-radius: 10px;
     display: grid;
     grid-template-columns: 50px 2fr 1fr 1fr;
     align-items: center;
     gap: 15px;
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    border: 1px solid rgba(128, 88, 149, 0.4);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -314,10 +314,10 @@ button:active {
 }
 
 .gain-amount {
-    color: #66bb6a;
+    color: #9b6fb5;
     font-weight: 600;
     font-size: 18px;
-    text-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+    text-shadow: 0 0 10px rgba(128, 88, 149, 0.6);
 }
 
 /* Clan Stats */
@@ -328,18 +328,18 @@ button:active {
 }
 
 .stat-box {
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.4), rgba(16, 46, 28, 0.6));
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.4), rgba(20, 12, 30, 0.6));
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid rgba(76, 175, 80, 0.5);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(76, 175, 80, 0.2);
+    border: 1px solid rgba(128, 88, 149, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(128, 88, 149, 0.2);
 }
 
 .stat-box h3 {
     font-size: 14px;
     opacity: 0.9;
     margin-bottom: 10px;
-    color: #a5d6a7;
+    color: #c4aed4;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -347,8 +347,8 @@ button:active {
 .stat-box .big-number {
     font-size: 36px;
     font-weight: 700;
-    color: #66bb6a;
-    text-shadow: 0 0 20px rgba(76, 175, 80, 0.6), 0 0 40px rgba(76, 175, 80, 0.3);
+    color: #9b6fb5;
+    text-shadow: 0 0 20px rgba(128, 88, 149, 0.6), 0 0 40px rgba(128, 88, 149, 0.3);
 }
 
 /* Promotions */
@@ -359,13 +359,13 @@ button:active {
 
 .promotions-header h2 {
     font-size: 24px;
-    color: #81c784;
+    color: #b08ec5;
     margin-bottom: 10px;
-    text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+    text-shadow: 0 0 15px rgba(128, 88, 149, 0.5);
 }
 
 .promo-subtitle {
-    color: #a5d6a7;
+    color: #c4aed4;
     font-size: 14px;
     opacity: 0.8;
 }
@@ -376,22 +376,22 @@ button:active {
 }
 
 .promotion-card {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.3), rgba(27, 94, 32, 0.5));
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.3), rgba(60, 30, 80, 0.5));
     padding: 20px;
     border-radius: 12px;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     align-items: center;
     gap: 20px;
-    border: 2px solid rgba(129, 199, 132, 0.5);
-    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3), 0 0 30px rgba(76, 175, 80, 0.2);
+    border: 2px solid rgba(160, 130, 180, 0.5);
+    box-shadow: 0 4px 20px rgba(128, 88, 149, 0.3), 0 0 30px rgba(128, 88, 149, 0.2);
     transition: all 0.3s ease;
 }
 
 .promotion-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(129, 199, 132, 0.8);
-    box-shadow: 0 6px 30px rgba(76, 175, 80, 0.4), 0 0 40px rgba(76, 175, 80, 0.3);
+    border-color: rgba(160, 130, 180, 0.8);
+    box-shadow: 0 6px 30px rgba(128, 88, 149, 0.4), 0 0 40px rgba(128, 88, 149, 0.3);
 }
 
 .promo-player-info {
@@ -403,12 +403,12 @@ button:active {
 .promo-player-name {
     font-size: 18px;
     font-weight: 700;
-    color: #c8e6c9;
+    color: #d8cce0;
 }
 
 .promo-current-rank {
     font-size: 13px;
-    color: #a5d6a7;
+    color: #c4aed4;
     opacity: 0.9;
 }
 
@@ -418,7 +418,7 @@ button:active {
 
 .promo-time-label {
     font-size: 11px;
-    color: #81c784;
+    color: #b08ec5;
     display: block;
     margin-bottom: 5px;
 }
@@ -426,27 +426,27 @@ button:active {
 .promo-time-value {
     font-size: 16px;
     font-weight: 600;
-    color: #66bb6a;
+    color: #9b6fb5;
 }
 
 .promo-suggested-rank {
     text-align: center;
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.6), rgba(46, 125, 50, 0.4));
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.6), rgba(90, 55, 115, 0.4));
     padding: 15px;
     border-radius: 10px;
-    border: 1px solid rgba(76, 175, 80, 0.6);
+    border: 1px solid rgba(128, 88, 149, 0.6);
 }
 
 .promo-arrow {
     font-size: 20px;
-    color: #66bb6a;
+    color: #9b6fb5;
     margin-bottom: 5px;
 }
 
 .promo-new-rank {
     font-size: 16px;
     font-weight: 700;
-    color: #81c784;
+    color: #b08ec5;
     text-transform: capitalize;
 }
 
@@ -470,13 +470,13 @@ button:active {
 }
 
 .modal-content {
-    background: linear-gradient(135deg, rgba(16, 46, 28, 0.95), rgba(27, 94, 32, 0.95));
-    border: 2px solid rgba(76, 175, 80, 0.6);
+    background: linear-gradient(135deg, rgba(20, 12, 30, 0.95), rgba(60, 30, 80, 0.95));
+    border: 2px solid rgba(128, 88, 149, 0.6);
     border-radius: 15px;
     padding: 0;
     max-width: 500px;
     width: 90%;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(128, 88, 149, 0.3);
 }
 
 .modal-header {
@@ -484,20 +484,20 @@ button:active {
     justify-content: space-between;
     align-items: center;
     padding: 20px 25px;
-    border-bottom: 2px solid rgba(76, 175, 80, 0.4);
+    border-bottom: 2px solid rgba(128, 88, 149, 0.4);
 }
 
 .modal-header h2 {
     font-size: 24px;
-    color: #81c784;
+    color: #b08ec5;
     margin: 0;
-    text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+    text-shadow: 0 0 15px rgba(128, 88, 149, 0.5);
 }
 
 .close-btn {
     background: transparent;
     border: none;
-    color: #a5d6a7;
+    color: #c4aed4;
     font-size: 36px;
     cursor: pointer;
     padding: 0;
@@ -508,7 +508,7 @@ button:active {
 }
 
 .close-btn:hover {
-    color: #c8e6c9;
+    color: #d8cce0;
     transform: rotate(90deg) scale(1.2);
 }
 
@@ -522,7 +522,7 @@ button:active {
 
 .setting-group label {
     display: block;
-    color: #a5d6a7;
+    color: #c4aed4;
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 10px;
@@ -534,9 +534,9 @@ button:active {
 .setting-group input[type="date"],
 .setting-group textarea {
     width: 100%;
-    background: linear-gradient(135deg, rgba(27, 94, 32, 0.4), rgba(16, 46, 28, 0.6));
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    color: #c8e6c9;
+    background: linear-gradient(135deg, rgba(60, 30, 80, 0.4), rgba(20, 12, 30, 0.6));
+    border: 1px solid rgba(128, 88, 149, 0.4);
+    color: #d8cce0;
     padding: 12px;
     border-radius: 8px;
     font-size: 16px;
@@ -545,7 +545,7 @@ button:active {
 }
 
 .setting-group input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.7) sepia(1) saturate(5) hue-rotate(80deg);
+    filter: invert(0.7) sepia(1) saturate(5) hue-rotate(230deg);
     cursor: pointer;
 }
 
@@ -557,7 +557,7 @@ button:active {
 .setting-description {
     margin-top: 8px;
     font-size: 12px;
-    color: #81c784;
+    color: #b08ec5;
     opacity: 0.8;
     line-height: 1.5;
 }
@@ -566,14 +566,14 @@ button:active {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    background: linear-gradient(135deg, rgba(56, 142, 60, 0.6), rgba(27, 94, 32, 0.6));
-    border: 2px solid rgba(76, 175, 80, 0.6);
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, rgba(100, 65, 130, 0.6), rgba(60, 30, 80, 0.6));
+    border: 2px solid rgba(128, 88, 149, 0.6);
+    box-shadow: 0 4px 15px rgba(128, 88, 149, 0.3);
 }
 
 .primary-btn:hover {
-    background: linear-gradient(135deg, rgba(67, 160, 71, 0.8), rgba(27, 94, 32, 0.8));
-    box-shadow: 0 6px 25px rgba(76, 175, 80, 0.5);
+    background: linear-gradient(135deg, rgba(110, 75, 140, 0.8), rgba(60, 30, 80, 0.8));
+    box-shadow: 0 6px 25px rgba(128, 88, 149, 0.5);
 }
 
 /* OG Member Badge and Button */
@@ -624,9 +624,9 @@ button:active {
 }
 
 .og-toggle-btn.active {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.5), rgba(27, 94, 32, 0.5));
-    border-color: rgba(76, 175, 80, 0.6);
-    color: #81c784;
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.5), rgba(60, 30, 80, 0.5));
+    border-color: rgba(128, 88, 149, 0.6);
+    color: #b08ec5;
 }
 
 .edit-date-btn {
@@ -653,19 +653,49 @@ button:active {
 }
 
 .content::-webkit-scrollbar-track {
-    background: rgba(16, 46, 28, 0.6);
+    background: rgba(20, 12, 30, 0.6);
     border-radius: 10px;
 }
 
 .content::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, rgba(46, 125, 50, 0.6), rgba(27, 94, 32, 0.8));
+    background: linear-gradient(135deg, rgba(90, 55, 115, 0.6), rgba(60, 30, 80, 0.8));
     border-radius: 10px;
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    border: 1px solid rgba(128, 88, 149, 0.4);
 }
 
 .content::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, rgba(56, 142, 60, 0.8), rgba(27, 94, 32, 1));
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    background: linear-gradient(135deg, rgba(100, 65, 130, 0.8), rgba(60, 30, 80, 1));
+    box-shadow: 0 0 10px rgba(128, 88, 149, 0.5);
+}
+
+/* ==================== TRACKER NAV ==================== */
+.tracker-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+    background: rgba(18, 10, 24, 0.95);
+    border-bottom: 1px solid rgba(128, 88, 149, 0.2);
+}
+
+.tracker-nav-back {
+    color: #c4aed4;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.tracker-nav-back:hover {
+    color: #d8cce0;
+}
+
+.tracker-nav-title {
+    color: #b08ec5;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
@@ -775,9 +805,9 @@ button:active {
     .member-card .member-stat {
         text-align: left;
         padding: 10px;
-        background: rgba(16, 46, 28, 0.4);
+        background: rgba(20, 12, 30, 0.4);
         border-radius: 8px;
-        border: 1px solid rgba(76, 175, 80, 0.3);
+        border: 1px solid rgba(128, 88, 149, 0.3);
     }
 
     .member-card .member-stat:nth-child(2) {
